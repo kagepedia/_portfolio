@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  client:
+    build: ./client
+    environment:
+      - NUXT_HOST=0.0.0.0
+    ports:
+      - 8080:3000
+    volumes:
+      - ./client:/frontend
+    command: yarn dev
+
+  server:
+    build: ./server
+    ports:
+      - 8888:8888
+    volumes:
+      - ./server:/backend
