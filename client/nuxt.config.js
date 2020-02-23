@@ -40,6 +40,8 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/vuetify',
+    '@nuxtjs/axios'
   ],
   /*
   ** Build configuration
@@ -50,5 +52,14 @@ export default {
     */
     extend (config, ctx) {
     }
+  },
+  /*
+  ** web api setting
+  */
+  axios: {
+    proxy: true
+  },
+  proxy: {
+    '/api/': 'http://localhost:8888/'
   }
 }
