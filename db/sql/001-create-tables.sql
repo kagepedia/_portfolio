@@ -1,8 +1,8 @@
 ---- drop ----
-DROP TABLE IF EXISTS `test_tqable`;
+DROP TABLE IF EXISTS `t_sample`;
 
 ---- create ----
-create table IF not exists `test_table`
+create table IF not exists `t_sample`
 (
  `id`               INT(20) AUTO_INCREMENT,
  `name`             VARCHAR(20) NOT NULL,
