@@ -1,54 +1,29 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
 
-	_ "github.com/go-sql-driver/mysql"
+	"server/application"
+	"server/infra/db"
+	controller "server/interface/controller"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 func main() {
-	db, err := sql.Open("mysql", "user:password@tcp(portfolio_db_1:3306)/sample")
-	if err != nil {
-		panic(err.Error())
-	}
-	defer db.Close() // 関数がリターンする直前に呼び出される
+	// 依存関係を注入（DI まではいきませんが一応注入っぽいことをしてる）
+	// DI ライブラリを使えば、もっとスマートになるはず
+	taskData := db.NewTaskData()
+	taskApp := application.NewTaskApp(taskData)
+	taskHandler := controller.NewTaskController(taskApp)
 
-	rows, err := db.Query("SELECT * FROM test_table") //
-	if err != nil {
-		panic(err.Error())
-	}
+	// ルーティングの設定
+	router := httprouter.New()
+	router.GET("/api/v1/task", taskHandler.Index)
 
-	columns, err := rows.Columns() // カラム名を取得
-	if err != nil {
-		panic(err.Error())
-	}
-
-	values := make([]sql.RawBytes, len(columns))
-
-	//  rows.Scan は引数に `[]interface{}`が必要.
-
-	scanArgs := make([]interface{}, len(values))
-	for i := range values {
-		scanArgs[i] = &values[i]
-	}
-
-	for rows.Next() {
-		err = rows.Scan(scanArgs...)
-		if err != nil {
-			panic(err.Error())
-		}
-
-		var value string
-		for i, col := range values {
-			// Here we can check if the value is nil (NULL value)
-			if col == nil {
-				value = "NULL"
-			} else {
-				value = string(col)
-			}
-			fmt.Println(columns[i], ": ", value)
-		}
-		fmt.Println("-----------------------------------")
-	}
+	// サーバ起動
+	fmt.Println("========================")
+	fmt.Println("Server Start >> http://localhost:9999")
+	fmt.Println("========================")
+	// log.Fatal(http.ListenAndServe(":9999", router))
 }
