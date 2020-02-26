@@ -2,28 +2,18 @@ package main
 
 import (
 	"fmt"
-
-	"server/application"
-	"server/infra/db"
-	controller "server/interface/controller"
-
-	"github.com/julienschmidt/httprouter"
+	"net/http"
+	"server/infra/router"
 )
 
 func main() {
-	// 依存関係を注入（DI まではいきませんが一応注入っぽいことをしてる）
-	// DI ライブラリを使えば、もっとスマートになるはず
-	taskData := db.NewTaskData()
-	taskApp := application.NewTaskApp(taskData)
-	taskHandler := controller.NewTaskController(taskApp)
-
-	// ルーティングの設定
-	router := httprouter.New()
-	router.GET("/api/v1/task", taskHandler.Index)
-
 	// サーバ起動
 	fmt.Println("========================")
-	fmt.Println("Server Start >> http://localhost:9999")
+	fmt.Println("Server Start >> http://localhost:8888")
 	fmt.Println("========================")
-	// log.Fatal(http.ListenAndServe(":9999", router))
+	// ルーティング呼び出し
+	router.InitRouting()
+	if err := http.ListenAndServe(":8888", nil); err != nil {
+		fmt.Println(err)
+	}
 }
