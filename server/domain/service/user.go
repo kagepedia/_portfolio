@@ -5,8 +5,7 @@ package service
 
 import (
 	"fmt"
-
-	"server/domain/repository"
+	// "server/domain/repository"
 )
 
 type UserService struct {

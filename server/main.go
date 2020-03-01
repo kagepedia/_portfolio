@@ -16,7 +16,7 @@ func main() {
 	db.NewSqlHandler()
 	// ルーティング呼び出し
 	router.InitRouting()
-	if err := http.ListenAndServe(":8888"); err != nil {
+	if err := http.ListenAndServe(":8888", nil); err != nil {
 		fmt.Println(err)
 	}
 }

@@ -6,7 +6,6 @@ import (
 )
 
 func InitRouting() {
-	http.HandleFunc("/hello", helloHandle)
-	http.HandleFunc("/goodbye", goodbyeHandle)
-	http.HandleFunc("/", landingHandle)
+	http.HandleFunc("/task", controller.Handler2)
+	http.HandleFunc("/", controller.Handler)
 }
