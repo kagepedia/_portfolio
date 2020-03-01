@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"server/interface/controller"
 )
 
 func InitRouting() {
