@@ -4,13 +4,15 @@ import (
 	"io"
 	"log"
 	"os"
+
+	"server/application"
 )
 
 // A Logger belong to the infrastructure layer.
 type Logger struct{}
 
 // NewLogger return a Logger.
-func NewLogger() usecases.Logger {
+func NewLogger() application.Logger {
 	return &Logger{}
 }
 

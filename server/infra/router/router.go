@@ -5,7 +5,13 @@ import (
 	"server/interface/controller"
 )
 
+// var Tc controller.TaskController
+// コントローラのポインタ
+var (
+	Tc = &controller.TaskController{}
+)
+
 func InitRouting() {
-	http.HandleFunc("/task", controller.Handler2)
+	http.Handle("/task", Tc)
 	http.HandleFunc("/", controller.Handler)
 }

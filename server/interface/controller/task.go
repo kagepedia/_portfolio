@@ -3,36 +3,36 @@ package controller
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"server/application"
 )
 
 type TaskController struct {
-	Ta application.TaskApplication
+	Ta     application.TaskApplication
+	Logger application.Logger
 }
 
-func (tc *TaskController) Handler2(w http.ResponseWriter, r *http.Request) {
+func (tc *TaskController) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprint(w, "Hello World from TaskGo.\n")
+	// tc.Logger.LogAccess("%s %s %s\n", r.RemoteAddr, r.Method, r.URL)
 
 	taskList := tc.Ta.All()
-	buf, err := json.Marshal(taskList)
+	res, err := json.Marshal(taskList)
 
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("n = nil, Invalid Error")
+		// log.Fatal("Error: %s", err)
+		// tc.Logger.LogError("%s", err)
 	}
-
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(buf)
-
-	// return c.String(http.StatusOK, string(buf))
+	fmt.Fprint(w, string(res))
 }
 
 /*
 TESTTESTTESTTESTTESTTESTTEST
 */
 func Handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello World from Go.\n")
+	fmt.Fprint(w, "Hello World from Go11111.\n")
 }
 
 /*
